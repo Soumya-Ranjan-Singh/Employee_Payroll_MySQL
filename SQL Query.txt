@@ -17,6 +17,8 @@ mysql> show databases;
 +--------------------+
 7 rows in set (0.06 sec)
 
+
+
 UC2 :Ability to create a employee payroll table in the payroll 
      service database to manage employee payrolls.
 
@@ -29,3 +31,15 @@ mysql> create table Employee_Payroll(
     -> start DATE NOT NULL,
     -> PRIMARY KEY(id));
 Query OK, 0 rows affected (0.06 sec)
+
+
+
+UC3 :Ability to create employee payroll data in the payroll 
+     service database as part of CRUD Operation - Use payroll_service database.
+
+mysql> insert into Employee_Payroll(name,salary,start)values
+    -> ('Soumya',30000.00,'2018-07-18'),
+    -> ('Nirmal',28000.00,'2020-02-12'),
+    -> ('Rashmi',32000.00,'2017-08-15');
+Query OK, 3 rows affected (0.08 sec)
+Records: 3  Duplicates: 0  Warnings: 0
