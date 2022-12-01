@@ -188,6 +188,85 @@ mysql> show databases;
 +--------------------+
 7 rows in set (0.19 sec)
 
+
+
+UC9 :Ability to extend employee_payroll table to have Basic Pay, Deductions, Taxable Pay, Income Tax, Net Pay
+
+mysql> alter table employee_payroll add basicpay Double NOT NULL after salary;
+Query OK, 0 rows affected (0.61 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add deduction Double NOT NULL after basicpay;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add taxablepay Double NOT NULL after deduction;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add incometax Double NOT NULL after taxablepay;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add netpay Double NOT NULL after incometax;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> describe employee_payroll;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int unsigned | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(15)  | NO   |     | NULL    |                |
+| phonenumber | varchar(20)  | YES  |     | NULL    |                |
+| address     | varchar(20)  | NO   |     | Odisha  |                |
+| department  | varchar(20)  | NO   |     | NULL    |                |
+| gender      | varchar(6)   | YES  |     | NULL    |                |
+| salary      | double       | NO   |     | NULL    |                |
+| basicpay    | double       | NO   |     | NULL    |                |
+| deduction   | double       | NO   |     | NULL    |                |
+| taxablepay  | double       | NO   |     | NULL    |                |
+| incometax   | double       | NO   |     | NULL    |                |
+| netpay      | double       | NO   |     | NULL    |                |
+| start       | date         | NO   |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+13 rows in set (0.00 sec)
+
+mysql> select * from employee_payroll;
++----+--------+-------------+---------+------------+--------+--------+----------+-----------+------------+-----------+--------+------------+
+| id | name   | phonenumber | address | department | gender | salary | basicpay | deduction | taxablepay | incometax | netpay | start      |
++----+--------+-------------+---------+------------+--------+--------+----------+-----------+------------+-----------+--------+------------+
+|  1 | Soumya | 8908641811  | Odisha  | Devloper   | Male   |  30000 |        0 |         0 |          0 |         0 |      0 | 2018-07-18 |
+|  2 | Nirmal | 7008458748  | Odisha  | Production | Male   |  28000 |        0 |         0 |          0 |         0 |      0 | 2020-02-12 |
+|  3 | Rashmi | 8908855352  | Odisha  | CQA        | Female |  32000 |        0 |         0 |          0 |         0 |      0 | 2017-08-15 |
++----+--------+-------------+---------+------------+--------+--------+----------+-----------+------------+-----------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update employee_payroll set basicpay = '13700', deduction = '2000', taxablepay = '1500', incometax = '1500', netpay = '11300'
+    -> where name = 'Soumya';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set basicpay = '12000', deduction = '1800', taxablepay = '1300', incometax = '1300', netpay = '13400'
+    -> where name = 'Nirmal';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set basicpay = '15000', deduction = '2200', taxablepay = '2000', incometax = '2000', netpay = '10800'
+    -> where name = 'Rashmi';
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+--------+-------------+---------+------------+--------+--------+----------+-----------+------------+-----------+--------+------------+
+| id | name   | phonenumber | address | department | gender | salary | basicpay | deduction | taxablepay | incometax | netpay | start      |
++----+--------+-------------+---------+------------+--------+--------+----------+-----------+------------+-----------+--------+------------+
+|  1 | Soumya | 8908641811  | Odisha  | Devloper   | Male   |  30000 |    13700 |      2000 |       1500 |      1500 |  11300 | 2018-07-18 |
+|  2 | Nirmal | 7008458748  | Odisha  | Production | Male   |  28000 |    12000 |      1800 |       1300 |      1300 |  13400 | 2020-02-12 |
+|  3 | Rashmi | 8908855352  | Odisha  | CQA        | Female |  32000 |    15000 |      2200 |       2000 |      2000 |  10800 | 2017-08-15 |
++----+--------+-------------+---------+------------+--------+--------+----------+-----------+------------+-----------+--------+------------+
+3 rows in set (0.00 sec)
+
 mysql> use payroll_service
 Database changed
 mysql> show tables;
